@@ -23,7 +23,10 @@
 
 /* _____________ 你的代码 _____________ */
 
-declare function PromiseAll(values: any): any
+// why T[k] extends Promise<infer R>? R:T[k] 不行？？？？
+// declare function PromiseAll<T extends any[]>(values: readonly [...T]): Promise<{[k in keyof T]:T[k] extends Promise<infer R>? R:T[k]}>
+
+declare function PromiseAll<T extends any[]>(values: readonly [...T]): Promise<{[k in keyof T]: Awaited< Promise<T[k]>>}>
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

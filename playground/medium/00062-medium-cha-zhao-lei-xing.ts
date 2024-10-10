@@ -29,7 +29,17 @@
 
 /* _____________ 你的代码 _____________ */
 
-type LookUp<U, T> = any
+
+
+// 官方 略复杂答案
+// type LookUp<U, T extends string> = {
+//   [K in T]: U extends { type: T } ? U : never
+// }[T]
+
+// 思考 为什么不行 右半边和 U extends {type: T} ? U : never; 的区别在哪里
+// type LookUp<U, T> = U['type'] extends T ? U : never
+
+type LookUp<U, T> = U extends {type: T} ? U : never;
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
