@@ -16,7 +16,14 @@
 
 /* _____________ 你的代码 _____________ */
 
-type Permutation<T> = any
+// 题解 https://github.com/type-challenges/type-challenges/issues/614#issue-779242337
+
+type Permutation<T, K=T> =
+[T] extends [never]
+  ? []
+  : K extends K
+    ? [K, ...Permutation<Exclude<T, K>>]
+    : never
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

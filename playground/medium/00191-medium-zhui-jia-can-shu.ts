@@ -23,7 +23,7 @@
 
 /* _____________ 你的代码 _____________ */
 
-type AppendArgument<Fn, A> = any
+type AppendArgument<Fn extends Function, A> = Fn extends (...args:infer Args)=>infer Res?(...args:[...Args,A])=>Res:never 
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

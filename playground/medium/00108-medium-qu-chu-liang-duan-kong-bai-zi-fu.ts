@@ -18,7 +18,9 @@
 
 /* _____________ 你的代码 _____________ */
 
-type Trim<S extends string> = any
+type Space = ' ' | '\n' | '\t'
+
+type Trim<S extends string> = S extends `${infer A}${Space}`|`${Space}${infer A}`?  Trim<A>:S
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
