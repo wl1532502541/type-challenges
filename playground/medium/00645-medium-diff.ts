@@ -27,7 +27,11 @@
 
 /* _____________ 你的代码 _____________ */
 
-type Diff<O, O1> = any
+// type Diff<O, O1> = {
+//   [K in keyof (O & O1) as K extends keyof (O | O1) ? never : K]: (O & O1)[K];
+// }
+type Diff<O, O1> =
+  Omit<O & O1, keyof(O | O1)>
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

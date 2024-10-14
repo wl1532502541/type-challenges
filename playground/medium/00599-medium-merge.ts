@@ -28,7 +28,10 @@
 
 /* _____________ 你的代码 _____________ */
 
-type Merge<F, S> = any
+// 思考为什么 类型“key”无法用于索引类型“F”。
+// type Merge<F , S> = {[key in keyof F | keyof S] : key extends keyof S ? S[key]: F[key] }
+
+type Merge<F , S> = {[key in keyof F | keyof S] : key extends keyof S ? S[key]: key extends keyof F ? F[key] : never }
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

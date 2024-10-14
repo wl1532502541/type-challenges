@@ -12,7 +12,10 @@
 
 /* _____________ 你的代码 _____________ */
 
-type LengthOfString<S extends string> = any
+type LengthOfString<S extends string,T extends string[] = []> = 
+   S extends `${infer fisrt}${infer nail}` 
+    ? LengthOfString<nail,[...T,fisrt]>
+    : T['length']
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

@@ -19,7 +19,7 @@
 
 /* _____________ 你的代码 _____________ */
 
-type StringToUnion<T extends string> = any
+type StringToUnion<T extends string, U = never> = T extends `${infer first}${infer nail}`? U | first| StringToUnion<nail>:U
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

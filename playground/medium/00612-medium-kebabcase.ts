@@ -23,8 +23,11 @@
 */
 
 /* _____________ 你的代码 _____________ */
-
-type KebabCase<S> = any
+  type KebabCase<S extends string, pre extends string = ''> = S extends `${infer F}${infer N}`
+    ? F extends `${Lowercase<F>}`
+      ? `${F}${KebabCase<N, F>}`
+      : `${pre extends '' ? '' : '-'}${Lowercase<F>}${KebabCase<N, F>}`
+    : ''
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -36,6 +39,8 @@ type cases = [
   Expect<Equal<KebabCase<'foo_bar'>, 'foo_bar'>>,
   Expect<Equal<KebabCase<'Foo-Bar'>, 'foo--bar'>>,
   Expect<Equal<KebabCase<'ABC'>, 'a-b-c'>>,
+  Expect<Equal<KebabCase<'A'>, 'a'>>,
+  Expect<Equal<KebabCase<'AB'>, 'a-b'>>,
   Expect<Equal<KebabCase<'-'>, '-'>>,
   Expect<Equal<KebabCase<''>, ''>>,
   Expect<Equal<KebabCase<'😎'>, '😎'>>,

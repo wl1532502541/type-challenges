@@ -19,7 +19,15 @@
 
 /* _____________ 你的代码 _____________ */
 
-type AnyOf<T extends readonly any[]> = any
+// type AnyOf<T extends readonly any[]> = T['length'] extends 0
+//   ? false
+//   : T extends [infer F, ...infer N]
+//     ? F extends false | [] | { [key: string]: never } | undefined | null | 0 | ''
+//       ? AnyOf<N>
+//       : true
+//     : false
+
+type AnyOf<T extends readonly any[]> = T[number] extends 0 | '' | false | [] | { [key: string]: never } | undefined | null ? false : true
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -35,6 +43,7 @@ type cases = [
   Expect<Equal<AnyOf<[0, '', false, [], { name: 'test' }, { 1: 'test' }]>, true>>,
   Expect<Equal<AnyOf<[0, '', false, [], {}, undefined, null]>, false>>,
   Expect<Equal<AnyOf<[]>, false>>,
+  Expect<Equal<AnyOf<[{ a: 1 }]>, true>>,
 ]
 
 /* _____________ 下一步 _____________ */
