@@ -25,7 +25,7 @@
 
 /* _____________ 你的代码 _____________ */
 
-type Mutable<T> = any
+type Mutable<T extends object> = { -readonly [key in keyof T]: T[key] }
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

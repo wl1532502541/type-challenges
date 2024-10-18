@@ -23,7 +23,11 @@
 
 /* _____________ 你的代码 _____________ */
 
-type IsNever<T> = any
+// wrong
+// type IsNever<T> = T extends never ? true : false
+
+// type IsNever<T> = { a: T } extends { a: never } ? true : false
+type IsNever<T> = [T] extends [never] ? true : false
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

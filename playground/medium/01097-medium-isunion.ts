@@ -19,8 +19,23 @@
 */
 
 /* _____________ 你的代码 _____________ */
+/**
+ * 1.2 T extends B ? ...
+这一步通过条件类型 T extends B ? 来逐个检查 T 是否可以扩展为 B。
 
-type IsUnion<T> = any
+这里的 T extends B 意义在于，它会触发联合类型的分布式特性——当 T 是联合类型时，TypeScript 会逐个拆解 T 的联合类型成员，并逐个判断是否符合条件。
+
+例如，{ a: string } | { a: number } 会被拆解为两次递归检查，分别判断 { a: string } 和 { a: number }。
+
+1.3 [B] extends [T] ? false : true
+这个条件用于区分 T 是否为联合类型：
+
+[B] extends [T] ?：这里的 B 是初始的 T，而 T 是联合类型的一个子类型。
+
+如果 T 不是联合类型（即 T 没有被拆解），B 和 T 的关系会相等，[B] extends [T] 为 true。
+如果 T 是联合类型并被拆解后，B 仍然是最原始的类型，而 T 则是其中的一个成员，因此 [B] extends [T] 为 false。
+ */
+type IsUnion<T, B = T> = [T] extends [never] ? false : T extends B ? [B] extends [T] ? false : true : never
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

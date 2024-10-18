@@ -23,7 +23,13 @@
 
 /* _____________ 你的代码 _____________ */
 
-type ObjectEntries<T> = any
+// type RemoveUndefined<T> = [T] extends [undefined] ? T : Exclude<T, undefined>
+
+// type ObjectEntries<T> = { [K in keyof T]-?: [K, RemoveUndefined<T[K]>] }[keyof T]
+
+type ObjectEntries<T> = {
+  [P in keyof Required<T>]: [P, [T[P]] extends [undefined] ? undefined : Required<T>[P]]
+}[keyof T]
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

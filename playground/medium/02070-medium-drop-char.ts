@@ -18,7 +18,7 @@
 
 /* _____________ 你的代码 _____________ */
 
-type DropChar<S, C> = any
+type DropChar<S, C extends string > = S extends `${infer L}${C}${infer R}` ? DropChar<`${L}${R}`, C> : S
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

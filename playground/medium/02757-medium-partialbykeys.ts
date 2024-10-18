@@ -26,7 +26,17 @@
 
 /* _____________ 你的代码 _____________ */
 
-type PartialByKeys<T, K> = any
+// 用来合并2个&一起的对象     {a:number}&{b:string} 变成 {a:number;b:string}
+
+type IntersectionToObj<T> = {
+  [Key in keyof T]: T[Key]
+}
+
+type PartialByKeys<T extends {}, K extends keyof T = any> = IntersectionToObj<{
+  [Key in keyof T as Key extends K ? Key : never]?: T[Key]
+} & {
+  [Key in keyof T as Key extends K ? never : Key]: T[Key]
+}>
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

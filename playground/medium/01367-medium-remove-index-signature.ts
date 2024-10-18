@@ -23,7 +23,27 @@
 
 /* _____________ 你的代码 _____________ */
 
-type RemoveIndexSignature<T> = any
+// type RemoveIndexSignature<T> = { [key in keyof T]: key extends [infer a] ? never : T[key] }
+
+/**
+ *
+ * P extends K ? never : (K extends P ? K : never)   P = string | number | symbol
+ *
+ * // becomes
+ * (string | number | symbol) extends K ? never : (K extends P ? K : never)
+ *
+ * // becomes
+ * | string extends K ? never : (K extends string ? K : never)
+ * | number extends K ? never : (K extends number ? K : never)
+ * | symbol extends K ? never : (K extends symbol ? K : never)
+ *
+ * 总之 要留下具体属性 去掉索引签名
+ * 具体属性 无法实现 string | number | symbol extends K
+ */
+
+type RemoveIndexSignature<T, P = PropertyKey> = {
+  [K in keyof T as P extends K ? never : K extends P ? K : never]: T[K]
+}
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

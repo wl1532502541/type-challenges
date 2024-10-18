@@ -27,7 +27,17 @@
 
 /* _____________ 你的代码 _____________ */
 
-type RequiredByKeys<T, K> = any
+type IntersectionToObj<T> = {
+  [key in keyof T]: T[key]
+}
+
+// 为什么不加这个 -? 去除可选性就会报错
+// 因为 如果你不加 -?，属性将保持其原来的状态，包括可选性。
+type RequiredByKeys<T extends {}, K extends keyof T = any> =
+IntersectionToObj<
+  { [P in keyof T as P extends K ? P : never]-?: T[P] }
+  & { [P in keyof T as P extends K ? never : P]?: T[P] }
+>
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
